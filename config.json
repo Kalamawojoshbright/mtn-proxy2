@@ -1,0 +1,53 @@
+{
+  "log": {
+    "loglevel": "warning",
+    "access": "/dev/null",
+    "error": "/dev/null"
+  },
+  "inbounds": [{
+    "port": 3000,
+    "protocol": "vmess",
+    "tag": "mtn-proxy",
+    "settings": {
+      "clients": [{
+        "id": "b126901c-8515-4d6a-b0b9-9b6c1c7e1d8d",
+        "alterId": 0,
+        "level": 0
+      }],
+      "disableInsecureEncryption": true
+    },
+    "streamSettings": {
+      "network": "ws",
+      "security": "none",
+      "wsSettings": {
+        "path": "/mtn-ug",
+        "headers": {
+          "Host": "mtn-uganda-proxy.kuberns.app"
+        }
+      }
+    }
+  }],
+  "outbounds": [{
+    "protocol": "freedom",
+    "settings": {},
+    "tag": "direct"
+  }],
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "rules": [{
+      "type": "field",
+      "ip": [
+        "geoip:private"
+      ],
+      "outboundTag": "direct"
+    }]
+  },
+  "policy": {
+    "levels": {
+      "0": {
+        "handshake": 2,
+        "connIdle": 120
+      }
+    }
+  }
+}
